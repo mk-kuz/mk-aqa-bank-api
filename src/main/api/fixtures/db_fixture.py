@@ -1,0 +1,14 @@
+import pytest
+from src.main.api.db.engine import SessionLocal, engine
+
+@pytest.fixture(scope='function')
+def db_session():
+    conn = engine.connect()
+    transaction = conn.begin()
+    session = SessionLocal(bind=conn)
+    try:
+        yield session
+    finally:
+        session.close()
+        transaction.rollback()
+        conn.close()
