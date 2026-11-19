@@ -1,15 +1,19 @@
-import pytest
 import logging
-from typing import List, Any
+from collections.abc import Generator
+from typing import Any, List
+
+import pytest
+
 from src.main.api.classes.api_manager import ApiManager
-from src.main.api.models.create_user_response import CreateUserResponse
 from src.main.api.fixtures.api_fixture import api_manager
-from src.main.api.fixtures.object_fixture import create_user_request, create_credit_user_request
 from src.main.api.fixtures.db_fixture import *
+from src.main.api.fixtures.preconditions import *
+from src.main.api.fixtures.object_fixture import create_credit_user_request, create_user_request
+from src.main.api.models.create_user_response import CreateUserResponse
 
 
 @pytest.fixture
-def created_obj():
+def created_obj() -> Generator[List[Any], None, None]:
     objects: List[Any] = []
     yield objects
     clean_user(objects)
